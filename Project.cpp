@@ -26,12 +26,13 @@ struct compare {
 
 class Project{
     private:
-    Node* creatingTree(string S, vector<int> f, int N) {
+    Node* creatingTree(unordered_map<char, int> m, int N) {
         priority_queue<Node*, vector<Node*>, compare> pq;
         Node *t, *p, *q;
         t = p = q = nullptr;
-        for (int i = 0; i < N; i++) {
-            t = new Node(S[i], f[i]);
+
+        for(auto it=m.begin(); it!=m.end(); it++){
+            t = new Node(it->first, it->second);
             pq.push(t);
         }
 
@@ -50,9 +51,9 @@ class Project{
         return pq.top();
     }
 
-    void printing(Node* root, string &ans, string s) {
+    void printing(Node* root, unordered_map<char, string> &ans, string s) {
         if (root->left == nullptr && root->right == nullptr) {
-            ans += s;
+            ans[root->ch] = s;
             return;
         }
 
@@ -65,9 +66,9 @@ class Project{
     }
     public:
         Node *root = NULL;
-        string huffmanEncoding(string S, vector<int> f, int N){
-            root = creatingTree(S, f, N);
-            string ans;
+        unordered_map<char, string> huffmanEncoding(unordered_map<char, int> m, int N){
+            root = creatingTree(m, N);
+            unordered_map<char, string> ans;
             string s = "";
             printing(root, ans, s);
             return ans;
@@ -92,10 +93,17 @@ class Project{
 };
 
 int main(){
+    string s; 
+    cin>>s;
+    unordered_map<char, int> m;
+    for(int i=0; s[i] != '\0'; i++){
+        m[s[i]]++;
+    }
+
     Project p1;
-    string ans = p1.huffmanEncoding("abcdef", {5, 9, 12, 13, 16, 45}, 6);
-    cout<<ans<<endl;
-    string st = p1.decodeHuffmanData(p1.root, ans);
-    cout<<st<<endl;
+    unordered_map<char, string> ans = p1.huffmanEncoding(m, m.size());
+    for(auto it = ans.begin(); it != ans.end(); it++){
+        cout<<it->first<<": "<<it->second<<endl;
+    }
     return 0;
 }
