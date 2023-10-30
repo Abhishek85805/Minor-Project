@@ -105,5 +105,15 @@ int main(){
     for(auto it = ans.begin(); it != ans.end(); it++){
         cout<<it->first<<": "<<it->second<<endl;
     }
+
+    string cs = "";
+    for(int i=0; i<s.length(); i++){
+        cs += ans[s[i]];
+    }
+    cout<<cs<<endl;
+
+    string res = p1.decodeHuffmanData(p1.root, cs);
+    cout<<res<<endl;
+
     return 0;
 }
