@@ -31,8 +31,11 @@ class Project{
 
     public:
     Node *root = NULL;
+    vector<char> randVec;
     unordered_map<char, string> huffmanEncoding(unordered_map<char, int> m, int N);
     string decodeHuffmanData(Node* root, string binaryString);
+    string encryption(string s);
+    string decryption(string s);
 };
 
 Node* Project::creatingTree(unordered_map<char, int> m, int N) {
@@ -97,6 +100,22 @@ string Project::decodeHuffmanData(Node* root, string binaryString){
     return res;
 }
 
+string Project::encryption(string s){
+    for(int i=0; s[i] != '\0'; i++){
+        int randNum = rand()%5;
+        randVec.push_back(randNum);
+        s[i] += randNum;
+    }
+    return s;
+}
+
+string Project::decryption(string s){
+    for(int i=0; s[i] != '\0'; i++){
+        s[i] -= randVec[i];
+    }
+    return s;
+}
+
 int main(){
     string s; 
     cin>>s;
@@ -119,6 +138,12 @@ int main(){
 
     string res = p1.decodeHuffmanData(p1.root, cs);
     cout<<res<<endl;
+
+    //Encryption and decryption
+    string es = p1.encryption(s);
+    cout<<"Encrypted String: "<<es<<endl;
+    string ds = p1.decryption(es);
+    cout<<"Decrypted String: "<<ds<<endl;
 
     return 0;
 }
