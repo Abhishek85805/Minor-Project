@@ -1,42 +1,7 @@
+#include "Project.h"
+#include <queue>
 #include<bits/stdc++.h>
 using namespace std;
-
-class Node{
-    public:
-    char ch;
-    int freq;
-    Node* left;
-    Node* right;
-
-    Node(int freq) : ch('\0'), freq(freq), left(nullptr), right(nullptr) {}
-
-    Node(char ch, int freq) : ch(ch), freq(freq), left(nullptr), right(nullptr) {}
-
-    ~Node() {
-        delete left;
-        delete right;
-    }
-};
-
-struct compare {
-    bool operator()(Node* a, Node* b) {
-        return a->freq > b->freq;
-    }
-};
-
-class Project{
-    private:
-    Node* creatingTree(unordered_map<char, int> m, int N);
-    void printing(Node* root, unordered_map<char, string> &ans, string s);
-
-    public:
-    Node *root = NULL;
-    vector<char> randVec;
-    unordered_map<char, string> huffmanEncoding(unordered_map<char, int> m, int N);
-    string decodeHuffmanData(Node* root, string binaryString);
-    string encryption(string s);
-    string decryption(string s);
-};
 
 Node* Project::creatingTree(unordered_map<char, int> m, int N) {
     priority_queue<Node*, vector<Node*>, compare> pq;
@@ -114,36 +79,4 @@ string Project::decryption(string s){
         s[i] -= randVec[i];
     }
     return s;
-}
-
-int main(){
-    string s; 
-    cin>>s;
-    unordered_map<char, int> m;
-    for(int i=0; s[i] != '\0'; i++){
-        m[s[i]]++;
-    }
-
-    Project p1;
-    unordered_map<char, string> ans = p1.huffmanEncoding(m, m.size());
-    for(auto it = ans.begin(); it != ans.end(); it++){
-        cout<<it->first<<": "<<it->second<<endl;
-    }
-
-    string cs = "";
-    for(int i=0; i<s.length(); i++){
-        cs += ans[s[i]];
-    }
-    cout<<cs<<endl;
-
-    string res = p1.decodeHuffmanData(p1.root, cs);
-    cout<<res<<endl;
-
-    //Encryption and decryption
-    string es = p1.encryption(s);
-    cout<<"Encrypted String: "<<es<<endl;
-    string ds = p1.decryption(es);
-    cout<<"Decrypted String: "<<ds<<endl;
-
-    return 0;
 }
